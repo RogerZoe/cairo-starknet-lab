@@ -21,4 +21,3 @@ Instead of usage, the focus is on:
 ## Why this matters
 Abstractions make code reusable — and harder to audit.
 Understanding their mechanics reduces review blind spots.
-
