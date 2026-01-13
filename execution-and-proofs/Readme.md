@@ -1,15 +1,26 @@
-This folder explores how Cairo programs execute on StarkNet and what zero-knowledge proofs actually guarantee.
+# Execution & Proofs 🧠⚡
 
-The focus here is not language syntax, but execution semantics:
-- what is executed
-- where it is executed
-- what the proof attests to
-- what remains the auditor’s responsibility
+This folder explores how Cairo programs are **executed**, **proven**, and **verified** in StarkNet.
 
-Artifacts in this folder document mental model shifts, such as:
-- execution vs verification
-- correctness of execution vs correctness of logic
-- determinism requirements in StarkNet
-- limits of proofs as a security mechanism
+The focus here is not syntax, but **mental models**:
+- What the STARK proof actually guarantees
+- What correctness means in a provable execution system
+- What *is not* protected by proofs (logic bugs, broken invariants)
 
-These notes exist because misunderstandings here lead to false security assumptions.
+## What lives here
+- Questions about provable programs
+- Execution flow (DECLARE / INVOKE)
+- Determinism and address predictability
+- Panic behavior and execution halting
+- Why L1 can verify without re-executing code
+
+## What does NOT live here
+- Language syntax
+- Data structures
+- Ownership rules
+
+## Why this matters
+Understanding execution guarantees is critical for:
+- Designing correct protocols
+- Auditing StarkNet contracts
+- Avoiding false security assumptions based on proofs
