@@ -1,54 +1,62 @@
 fn main() {
-    // StarkNet prime P:
-    // P = 2^251 + 17 * 2^192 + 1
-    // We don't need the exact value, just that it exists.
 
-    // Simulate "near the maximum" value
-    let max = felt252::MAX; // P - 1
+////////////////////////////////////////////////////////
+//                   felt252                          //
+////////////////////////////////////////////////////////
 
-    // -----------------------------
-    // ADDITION (OVERFLOW)
-    // -----------------------------
-    // Expected (integer intuition):
-    // (P - 1) + 1 = P
-    //
-    // Actual (felt252):
-    // P ≡ 0 (mod P)
-    let add = max + 1;
-    println!("(P-1) + 1 = {}", add); // ❌ prints 0 (WRONG)
 
-    // -----------------------------
-    // SUBTRACTION (UNDERFLOW)
-    // -----------------------------
-    // Expected (integer intuition):
-    // 0 - 1 = -1
-    //
-    // Actual (felt252):
-    // -1 ≡ P - 1 (mod P)
-    let sub = 0 - 1;
-    println!("0 - 1 = {}", sub); //  prints HUGE number (WRONG)
+    // Default type is felt252
+    let a = 123;
+    let b = 140;
 
-    // -----------------------------
-    // MULTIPLICATION (WRAPAROUND)
-    // -----------------------------
-    // Expected (integer intuition):
-    // (P - 1) * 2 = 2P - 2
-    //
-    // Actual (felt252):
-    // 2P - 2 ≡ P - 2 (mod P)
-    let mul = max * 2;
-    println!("(P-1) * 2 = {}", mul); //  WRONG
+    // SUBTRACTION
+    // Expected (integer intuition): 123 - 140 = -17
+    // Actual (felt252): wraps modulo P → HUGE positive number
+    println!("a - b (felt252) = {}", a - b);
 
-    // -----------------------------
-    // DIVISION (BLOCKED)
-    // -----------------------------
-    // Expected (integer intuition):
-    // 1 / 2 = 0
-    //
-    // Actual (felt252):
-    // 1 / 2 = inverse(2) = (P + 1) / 2 (HUGE)
-    //
-    // Cairo REFUSES to compile this to prevent silent bugs.
-    //
-    // println!("{}", 1 / 2); //  compile-time error
+    // ADDITION
+    // Expected (integer intuition): 123 + 140 = 263
+    // Actual (felt252): works here, BUT can silently overflow near P
+    println!("a + b (felt252) = {}", a + b);
+
+    // MULTIPLICATION
+    // Expected (integer intuition): 123 * 140 = 17220
+    // Actual (felt252): works here, BUT can silently wrap modulo P
+    println!("a * b (felt252) = {}", a * b);
+
+    // DIVISION
+    // Expected (integer intuition): 1 / 2 = 0
+    // Actual (felt252): undefined for humans
+    // Cairo PREVENTS this by refusing to compile
+    println!("{}", 1 / 2); //  compile-time error
+
+
+////////////////////////////////////////////////////////
+//                   Integers                         //
+////////////////////////////////////////////////////////
+    // Explicitly declare u32 types 
+    let c: u32 = 123;
+    let d: u32 = 140;
+
+    
+    // ADDITION
+    // For u32: 123 + 140 = 263  Works fine (within u32 range)
+    // But: u32 also panics on overflow (MAX = 4,294,967,295)
+    println!("c + d (u32) = {}", c + d);
+
+    // MULTIPLICATION  
+    // For u32: 123 * 140 = 17,220  Works fine (within u32 range)
+    // But: u32 also panics on overflow if result > MAX
+    println!("c * d (u32) = {}", c * d);
+    
+    // SUBTRACTION
+    // For u32: 123 - 140 =  PANIC at runtime (underflow)
+    // u32 types have overflow/underflow protection!
+    println!("c - d (u32) = {}", c - d); //  This will panic!
+
+    // DIVISION
+    // For u32: 123 / 140 = 0 ✅ Integer division (truncates)
+    // Note: Division by zero also panics
+    println!("c / d (u32) = {}", c / d); // Outputs 0
+
 }
