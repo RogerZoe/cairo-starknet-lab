@@ -55,7 +55,7 @@ fn main() {
     println!("c - d (u32) = {}", c - d); //  This will panic!
 
     // DIVISION
-    // For u32: 123 / 140 = 0 ✅ Integer division (truncates)
+    // For u32: 123 / 140 = 0  Integer division (truncates)
     // Note: Division by zero also panics
     println!("c / d (u32) = {}", c / d); // Outputs 0
 
