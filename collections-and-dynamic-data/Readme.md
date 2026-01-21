@@ -7,7 +7,7 @@ Dynamic data is where most real-world complexity appears.
 ## What lives here
 - Arrays
 - Structs
-- Tuples
+- Dictionary
 - Composite ownership behavior
 
 ## Typical questions explored
