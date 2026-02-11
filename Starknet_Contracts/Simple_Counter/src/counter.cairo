@@ -20,6 +20,8 @@ pub mod counter {
     // OpenZeppelin imports
     use openzeppelin::access::ownable::OwnableComponent;
     use openzeppelin::interfaces::erc20::{IERC20Dispatcher, IERC20DispatcherTrait};
+    
+    use crate::utils::{strk_address,strk_to_wei};
 
     // Component declaration
     component!(path: OwnableComponent, storage: ownable, event: OwnableEvent);
@@ -30,7 +32,7 @@ pub mod counter {
     impl OwnableInternalImpl = OwnableComponent::InternalImpl<ContractState>;
 
     #[storage]
-    struct Storage {
+   pub struct Storage {
         counter: u32,
         // Substorage for the Ownable component
         #[substorage(v0)]
@@ -40,25 +42,25 @@ pub mod counter {
     //
     #[event]
     #[derive(Drop, starknet::Event)]
-    enum Event {
+   pub enum Event {
         CounterChanged: CounterChanged,
         #[flat]
         OwnableEvent: OwnableComponent::Event
     }
 
     #[derive(Drop, starknet::Event)]
-    struct CounterChanged {
+   pub struct CounterChanged {
         #[key]
-        caller: ContractAddress,
-        old_value: u32,
-        new_value: u32,
-        reason: ChangeReason
+       pub caller: ContractAddress,
+        pub old_value: u32,
+        pub new_value: u32,
+        pub reason: ChangeReason
     }
 
     #[derive(Drop, Copy, Serde)]
-    enum ChangeReason {
-        Increase,
-        Decrease,
+   pub enum ChangeReason {
+       Increase,
+       Decrease,
         Set,
         Reset
     }
@@ -129,10 +131,9 @@ pub mod counter {
         //
         fn reset_counter(ref self: ContractState) {
             // 1 STRK (10^18)
-            let payment_amount: u256 = 1000000000000000000; 
+            let payment_amount: u256 = strk_to_wei(5); 
             // Standard Stark Token address
-            let strk_token_address: ContractAddress = 0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d.try_into().unwrap();
-            
+            let strk_token_address: ContractAddress = strk_address();
             let caller = get_caller_address();
             let contract_address = get_contract_address();
             let owner = self.ownable.owner();
