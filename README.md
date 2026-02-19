@@ -27,14 +27,22 @@ Each folder contains **small, focused experiments** answering one concrete quest
 ```
 
 cairo-starknet-lab/
-├── execution-and-proofs/
-├── types-and-values/
-├── collections-and-dynamic-data/
-├── ownership-and-memory/
-├── functions-traits-generics/
-└── testing-and-failure-modes/
+├── DEFI/
+├── Notes/
+├── Security/
+├── Starknet_Contracts/
 
 ```
+DEFI
+Create Readme.md
+2 days ago
+Notes
+Starknet-Notes
+2 minutes ago
+Security
+Create Readme.md
+now
+Starknet_Contracts
 
 Each top-level folder represents a **risk domain** — areas where misunderstandings can lead to bugs, failed invariants, or flawed audits.
 
